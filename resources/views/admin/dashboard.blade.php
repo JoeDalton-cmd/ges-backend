@@ -27,14 +27,27 @@
   <div class="contenu">
     <h1 style="margin-bottom:24px;">Tableau de bord</h1>
     <div class="grille-stats">
-    <a href="/admin/formations" style="text-decoration:none;color:inherit;">
-  <div class="stat"><div class="stat-nombre">{{ $nbFormations }}</div><div class="stat-label">Formations</div></div>
-</a>
-      <div class="stat"><div class="stat-nombre">{{ $nbPieces }}</div><div class="stat-label">Pièces</div></div>
-      <div class="stat"><div class="stat-nombre">{{ $nbPublications }}</div><div class="stat-label">Publications</div></div>
-      <div class="stat"><div class="stat-nombre">{{ $nbInscriptions }}</div><div class="stat-label">Inscriptions</div></div>
-      <div class="stat"><div class="stat-nombre">{{ $nbDemandesPieces }}</div><div class="stat-label">Demandes de pièces</div></div>
-      <div class="stat"><div class="stat-nombre">{{ $nbMessages }}</div><div class="stat-label">Messages</div></div>
+      <a href="/admin/formations" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbFormations }}</div><div class="stat-label">Formations</div></div>
+      </a>
+      <a href="/admin/pieces" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbPieces }}</div><div class="stat-label">Pièces</div></div>
+      </a>
+      <a href="/admin/publications" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbPublications }}</div><div class="stat-label">Publications</div></div>
+      </a>
+      <a href="/admin/partenaires" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbPartenaires }}</div><div class="stat-label">Partenaires</div></div>
+      </a>
+      <a href="/admin/inscriptions" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbInscriptions }}</div><div class="stat-label">Inscriptions</div></div>
+      </a>
+      <a href="/admin/demandes-pieces" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbDemandesPieces }}</div><div class="stat-label">Demandes de pièces</div></div>
+      </a>
+      <a href="/admin/messages" style="text-decoration:none;color:inherit;">
+        <div class="stat"><div class="stat-nombre">{{ $nbMessages }}</div><div class="stat-label">Messages</div></div>
+      </a>
     </div>
   </div>
 </body>

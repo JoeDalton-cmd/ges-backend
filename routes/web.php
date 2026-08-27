@@ -41,6 +41,12 @@ Route::post('/contact', [ContactController::class, 'store']);
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FormationController;
+use App\Http\Controllers\Admin\PieceController as AdminPieceController;
+use App\Http\Controllers\Admin\PublicationController as AdminPublicationController;
+use App\Http\Controllers\Admin\PartenaireController as AdminPartenaireController;
+use App\Http\Controllers\Admin\InscriptionController as AdminInscriptionController;
+use App\Http\Controllers\Admin\DemandePieceController as AdminDemandePieceController;
+use App\Http\Controllers\Admin\MessageContactController as AdminMessageContactController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -57,7 +63,38 @@ Route::prefix('admin')->group(function () {
         Route::get('/formations/{id}/modifier', [FormationController::class, 'edit']);
         Route::put('/formations/{id}', [FormationController::class, 'update']);
         Route::delete('/formations/{id}', [FormationController::class, 'destroy']);
-    });
+
+        Route::get('/pieces', [AdminPieceController::class, 'index']);
+Route::get('/pieces/creer', [AdminPieceController::class, 'create']);
+Route::post('/pieces', [AdminPieceController::class, 'store']);
+Route::get('/pieces/{id}/modifier', [AdminPieceController::class, 'edit']);
+Route::put('/pieces/{id}', [AdminPieceController::class, 'update']);
+Route::delete('/pieces/{id}', [AdminPieceController::class, 'destroy']);
+
+Route::get('/publications', [AdminPublicationController::class, 'index']);
+Route::get('/publications/creer', [AdminPublicationController::class, 'create']);
+Route::post('/publications', [AdminPublicationController::class, 'store']);
+Route::get('/publications/{id}/modifier', [AdminPublicationController::class, 'edit']);
+Route::put('/publications/{id}', [AdminPublicationController::class, 'update']);
+Route::delete('/publications/{id}', [AdminPublicationController::class, 'destroy']);
+
+Route::get('/partenaires', [AdminPartenaireController::class, 'index']);
+Route::get('/partenaires/creer', [AdminPartenaireController::class, 'create']);
+Route::post('/partenaires', [AdminPartenaireController::class, 'store']);
+Route::get('/partenaires/{id}/modifier', [AdminPartenaireController::class, 'edit']);
+Route::put('/partenaires/{id}', [AdminPartenaireController::class, 'update']);
+Route::delete('/partenaires/{id}', [AdminPartenaireController::class, 'destroy']);
+
+Route::get('/inscriptions', [AdminInscriptionController::class, 'index']);
+Route::put('/inscriptions/{id}/statut', [AdminInscriptionController::class, 'updateStatut']);
+ 
+Route::get('/demandes-pieces', [AdminDemandePieceController::class, 'index']);
+Route::put('/demandes-pieces/{id}/statut', [AdminDemandePieceController::class, 'updateStatut']);
+
+Route::get('/messages', [AdminMessageContactController::class, 'index']);
+Route::put('/messages/{id}/statut', [AdminMessageContactController::class, 'updateStatut']);
+
+});
 });
 
 

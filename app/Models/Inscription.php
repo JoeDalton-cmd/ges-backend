@@ -11,4 +11,8 @@ class Inscription extends Model
     'formation_id', 'nom_complet', 'telephone', 'email',
     'niveau_etude', 'profession', 'message', 'statut',
 ];
+public function formation()
+{
+    return $this->belongsTo(\App\Models\Formation::class);
+}
 }
