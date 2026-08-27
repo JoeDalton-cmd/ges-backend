@@ -97,5 +97,25 @@ Route::put('/messages/{id}/statut', [AdminMessageContactController::class, 'upda
 });
 });
 
+use App\Http\Controllers\MembreAuthController;
 
+Route::get('/forum/inscription', [MembreAuthController::class, 'showRegister']);
+Route::post('/forum/inscription', [MembreAuthController::class, 'register']);
+Route::get('/forum/connexion', [MembreAuthController::class, 'showLogin']);
+Route::post('/forum/connexion', [MembreAuthController::class, 'login']);
+Route::post('/forum/deconnexion', [MembreAuthController::class, 'logout']);
 
+use App\Http\Controllers\ForumController;
+
+Route::get('/forum', [ForumController::class, 'index']);
+Route::get('/forum/categorie/{id}', [ForumController::class, 'categorie']);
+
+use App\Http\Controllers\SujetController;
+
+Route::get('/forum/sujet/{id}', [SujetController::class, 'show']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/forum/categorie/{id}/nouveau-sujet', [SujetController::class, 'create']);
+    Route::post('/forum/categorie/{id}/nouveau-sujet', [SujetController::class, 'store']);
+    Route::post('/forum/sujet/{id}/repondre', [SujetController::class, 'repondre']);
+});
