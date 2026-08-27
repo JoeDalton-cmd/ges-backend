@@ -15,3 +15,10 @@ Route::get('/formations/{id}', function ($id) {
 use App\Http\Controllers\InscriptionController;
 
 Route::post('/inscriptions', [InscriptionController::class, 'store']);
+use App\Http\Controllers\PieceController;
+
+Route::get('/pieces', [PieceController::class, 'index']);
+Route::get('/pieces/{id}', [PieceController::class, 'show']);
+use App\Http\Controllers\DemandePieceController;
+
+Route::post('/demandes-pieces', [DemandePieceController::class, 'store']);
