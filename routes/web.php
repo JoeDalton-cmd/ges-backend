@@ -32,3 +32,8 @@ use App\Http\Controllers\PartenaireController;
 
 Route::get('/partenariats', [PartenaireController::class, 'index']);
 Route::post('/partenariats', [PartenaireController::class, 'store']);
+
+use App\Http\Controllers\ContactController;
+
+Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'store']);
