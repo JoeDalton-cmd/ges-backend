@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $formations = \App\Models\Formation::where('statut', 'publie')->latest()->take(3)->get();
+    $publications = \App\Models\Publication::where('statut', 'publie')->orderBy('publie_le', 'desc')->take(3)->get();
+    return view('welcome', ['formations' => $formations, 'publications' => $publications]);
 });
 Route::get('/test', function () {
     return 'Bonjour GES, ça fonctionne !';
