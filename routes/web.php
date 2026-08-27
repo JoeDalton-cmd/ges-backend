@@ -22,3 +22,8 @@ Route::get('/pieces/{id}', [PieceController::class, 'show']);
 use App\Http\Controllers\DemandePieceController;
 
 Route::post('/demandes-pieces', [DemandePieceController::class, 'store']);
+
+use App\Http\Controllers\PublicationController;
+
+Route::get('/publications', [PublicationController::class, 'index']);
+Route::get('/publications/{id}', [PublicationController::class, 'show']);
