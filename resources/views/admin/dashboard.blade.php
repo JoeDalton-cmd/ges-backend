@@ -27,7 +27,9 @@
   <div class="contenu">
     <h1 style="margin-bottom:24px;">Tableau de bord</h1>
     <div class="grille-stats">
-      <div class="stat"><div class="stat-nombre">{{ $nbFormations }}</div><div class="stat-label">Formations</div></div>
+    <a href="/admin/formations" style="text-decoration:none;color:inherit;">
+  <div class="stat"><div class="stat-nombre">{{ $nbFormations }}</div><div class="stat-label">Formations</div></div>
+</a>
       <div class="stat"><div class="stat-nombre">{{ $nbPieces }}</div><div class="stat-label">Pièces</div></div>
       <div class="stat"><div class="stat-nombre">{{ $nbPublications }}</div><div class="stat-label">Publications</div></div>
       <div class="stat"><div class="stat-nombre">{{ $nbInscriptions }}</div><div class="stat-label">Inscriptions</div></div>

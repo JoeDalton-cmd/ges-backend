@@ -40,6 +40,7 @@ Route::post('/contact', [ContactController::class, 'store']);
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FormationController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -48,5 +49,16 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
+        
+
+        Route::get('/formations', [FormationController::class, 'index']);
+        Route::get('/formations/creer', [FormationController::class, 'create']);
+        Route::post('/formations', [FormationController::class, 'store']);
+        Route::get('/formations/{id}/modifier', [FormationController::class, 'edit']);
+        Route::put('/formations/{id}', [FormationController::class, 'update']);
+        Route::delete('/formations/{id}', [FormationController::class, 'destroy']);
     });
 });
+
+
+
