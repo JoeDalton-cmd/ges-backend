@@ -39,20 +39,24 @@ class MembreAuthController extends Controller
         return view('forum.login');
     }
 
-    public function login(Request $request)
-    {
-        $identifiants = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+  public function login(Request $request)
+{
+    $identifiants = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (Auth::attempt($identifiants)) {
-            $request->session()->regenerate();
-            return redirect('/forum');
+    if (Auth::attempt($identifiants)) {
+        if (auth()->user()->suspendu) {
+            Auth::logout();
+            return back()->withErrors(['email' => 'Ce compte a été suspendu.']);
         }
-
-        return back()->withErrors(['email' => 'Identifiants incorrects.']);
+        $request->session()->regenerate();
+        return redirect('/forum');
     }
+
+    return back()->withErrors(['email' => 'Identifiants incorrects.']);
+}
 
     public function logout(Request $request)
     {

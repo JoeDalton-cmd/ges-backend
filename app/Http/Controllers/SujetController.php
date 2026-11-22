@@ -39,17 +39,23 @@ class SujetController extends Controller
     }
 
     public function repondre(Request $request, $id)
-    {
-        $donnees = $request->validate([
-            'contenu' => 'required|string',
-        ]);
+{
+    $sujet = \App\Models\Sujet::findOrFail($id);
 
-        Reponse::create([
-            'sujet_id' => $id,
-            'user_id' => auth()->id(),
-            'contenu' => $donnees['contenu'],
-        ]);
-
-        return redirect('/forum/sujet/' . $id)->with('succes', 'Réponse publiée.');
+    if ($sujet->ferme) {
+        return back()->withErrors(['contenu' => 'Ce sujet est fermé, les réponses ne sont plus acceptées.']);
     }
+
+    $donnees = $request->validate([
+        'contenu' => 'required|string',
+    ]);
+
+    Reponse::create([
+        'sujet_id' => $id,
+        'user_id' => auth()->id(),
+        'contenu' => $donnees['contenu'],
+    ]);
+
+    return redirect('/forum/sujet/' . $id)->with('succes', 'Réponse publiée.');
+}
 }

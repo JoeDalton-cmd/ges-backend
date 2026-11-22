@@ -37,6 +37,18 @@
       <div class="message-date">{{ $sujet->created_at->format('d/m/Y à H:i') }}</div>
       <div class="message-contenu">{{ $sujet->contenu }}</div>
     </div>
+    
+    @auth
+  <details style="margin-bottom:24px;font-size:13px;">
+    <summary style="cursor:pointer;color:#6B6B6B;">Signaler ce sujet</summary>
+    <form method="POST" action="/forum/signaler" style="margin-top:12px;">
+      @csrf
+      <input type="hidden" name="sujet_id" value="{{ $sujet->id }}">
+      <input type="text" name="raison" placeholder="Raison du signalement" required style="width:100%;padding:10px;border:1px solid #D8D8D8;margin-bottom:8px;">
+      <button type="submit" class="btn" style="padding:10px 20px;">Envoyer le signalement</button>
+    </form>
+  </details>
+@endauth
 
     <h3 style="margin:24px 0 12px;">{{ $sujet->reponses->count() }} réponse(s)</h3>
 

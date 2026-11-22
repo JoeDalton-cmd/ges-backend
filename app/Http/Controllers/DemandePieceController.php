@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\DemandePiece;
 use Illuminate\Http\Request;
 
 class DemandePieceController extends Controller
 {
-    public function store(Request $request)
+    public function index()
     {
-        $donnees = $request->validate([
-            'piece_id' => 'required|exists:pieces,id',
-            'nom_complet' => 'required|string|max:255',
-            'telephone' => 'required|string|max:30',
-            'email' => 'nullable|email',
-            'message' => 'nullable|string',
-        ]);
+        $demandes = DemandePiece::with('piece')->orderBy('created_at', 'desc')->get();
+        return view('admin.demandes-pieces.index', ['demandes' => $demandes]);
+    }
 
-        DemandePiece::create($donnees);
-
-        return back()->with('succes', 'Votre demande a bien été envoyée ! Nous vous contacterons rapidement.');
+    public function updateStatut(Request $request, $id)
+    {
+        $demande = DemandePiece::findOrFail($id);
+        $demande->update(['statut' => $request->statut]);
+        return back()->with('succes', 'Statut mis à jour.');
     }
 }

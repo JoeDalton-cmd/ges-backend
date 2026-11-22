@@ -49,6 +49,7 @@ use App\Http\Controllers\Admin\PartenaireController as AdminPartenaireController
 use App\Http\Controllers\Admin\InscriptionController as AdminInscriptionController;
 use App\Http\Controllers\Admin\DemandePieceController as AdminDemandePieceController;
 use App\Http\Controllers\Admin\MessageContactController as AdminMessageContactController;
+use App\Http\Controllers\Admin\ModerationController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -96,9 +97,18 @@ Route::put('/demandes-pieces/{id}/statut', [AdminDemandePieceController::class, 
 Route::get('/messages', [AdminMessageContactController::class, 'index']);
 Route::put('/messages/{id}/statut', [AdminMessageContactController::class, 'updateStatut']);
 
-});
-});
+Route::get('/moderation/signalements', [ModerationController::class, 'signalements']);
+Route::put('/moderation/signalements/{id}/traiter', [ModerationController::class, 'traiterSignalement']);
 
+Route::get('/moderation/sujets', [ModerationController::class, 'sujets']);
+Route::put('/moderation/sujets/{id}/epingler', [ModerationController::class, 'togglePingle']);
+Route::put('/moderation/sujets/{id}/fermer', [ModerationController::class, 'toggleFerme']);
+Route::delete('/moderation/sujets/{id}', [ModerationController::class, 'supprimerSujet']);
+
+Route::get('/moderation/membres', [ModerationController::class, 'membres']);
+Route::put('/moderation/membres/{id}/suspendre', [ModerationController::class, 'toggleSuspension']);
+});
+});
 use App\Http\Controllers\MembreAuthController;
 
 Route::get('/forum/inscription', [MembreAuthController::class, 'showRegister']);
@@ -121,3 +131,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/forum/categorie/{id}/nouveau-sujet', [SujetController::class, 'store']);
     Route::post('/forum/sujet/{id}/repondre', [SujetController::class, 'repondre']);
 });
+
+use App\Http\Controllers\SignalementController;
+
+Route::post('/forum/signaler', [SignalementController::class, 'store']);

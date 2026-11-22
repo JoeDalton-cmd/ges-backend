@@ -48,6 +48,9 @@
       <a href="/admin/messages" style="text-decoration:none;color:inherit;">
         <div class="stat"><div class="stat-nombre">{{ $nbMessages }}</div><div class="stat-label">Messages</div></div>
       </a>
+      <div style="margin-top:24px;">
+  <a href="/admin/moderation/signalements" class="stat" style="display:inline-block;text-decoration:none;color:inherit;">Modération du forum →</a>
+</div>
     </div>
   </div>
 </body>
