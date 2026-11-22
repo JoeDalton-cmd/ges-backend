@@ -17,6 +17,7 @@
   .statut-nouveau { color: #E4002B; font-weight: 700; }
   .statut-traite { color: #00B37E; }
   .succes { background: #00B37E; color: white; padding: 16px; margin-bottom: 20px; }
+  .extrait { color: #6B6B6B; font-size: 13px; margin-top: 4px; white-space: pre-line; }
 </style>
 </head>
 <body>
@@ -40,12 +41,14 @@
       <tbody>
         @foreach ($signalements as $signalement)
           <tr>
-            <td>{{ $signalement->auteur->name }}</td>
+            <td>{{ $signalement->auteur->name ?? '—' }}</td>
             <td>
               @if ($signalement->sujet)
                 Sujet : <a href="/forum/sujet/{{ $signalement->sujet->id }}" target="_blank">{{ $signalement->sujet->titre }}</a>
               @elseif ($signalement->reponse)
-                Une réponse dans le sujet #{{ $signalement->reponse->sujet_id }}
+                Réponse de {{ $signalement->reponse->auteur->name ?? '—' }} dans
+                <a href="/forum/sujet/{{ $signalement->reponse->sujet_id }}" target="_blank">{{ $signalement->reponse->sujet->titre ?? 'sujet #'.$signalement->reponse->sujet_id }}</a>
+                <div class="extrait">{{ \Illuminate\Support\Str::limit($signalement->reponse->contenu, 160) }}</div>
               @else
                 Contenu supprimé
               @endif
@@ -58,6 +61,13 @@
                   @csrf
                   @method('PUT')
                   <button type="submit" class="btn">Marquer traité</button>
+                </form>
+              @endif
+              @if ($signalement->reponse)
+                <form method="POST" action="/admin/moderation/reponses/{{ $signalement->reponse->id }}" style="margin-top:6px;" onsubmit="return confirm('Supprimer cette réponse ?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn">Supprimer la réponse</button>
                 </form>
               @endif
             </td>

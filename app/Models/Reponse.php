@@ -14,4 +14,9 @@ public function auteur()
     return $this->belongsTo(\App\Models\User::class, 'user_id');
 }
 
+public function sujet()
+{
+    return $this->belongsTo(\App\Models\Sujet::class);
+}
+
 }

@@ -56,7 +56,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
         
 
@@ -104,6 +104,7 @@ Route::get('/moderation/sujets', [ModerationController::class, 'sujets']);
 Route::put('/moderation/sujets/{id}/epingler', [ModerationController::class, 'togglePingle']);
 Route::put('/moderation/sujets/{id}/fermer', [ModerationController::class, 'toggleFerme']);
 Route::delete('/moderation/sujets/{id}', [ModerationController::class, 'supprimerSujet']);
+Route::delete('/moderation/reponses/{id}', [ModerationController::class, 'supprimerReponse']);
 
 Route::get('/moderation/membres', [ModerationController::class, 'membres']);
 Route::put('/moderation/membres/{id}/suspendre', [ModerationController::class, 'toggleSuspension']);
@@ -126,12 +127,10 @@ use App\Http\Controllers\SujetController;
 
 Route::get('/forum/sujet/{id}', [SujetController::class, 'show']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'actif'])->group(function () {
+    Route::post('/forum/signaler', [\App\Http\Controllers\SignalementController::class, 'store']);
     Route::get('/forum/categorie/{id}/nouveau-sujet', [SujetController::class, 'create']);
     Route::post('/forum/categorie/{id}/nouveau-sujet', [SujetController::class, 'store']);
     Route::post('/forum/sujet/{id}/repondre', [SujetController::class, 'repondre']);
 });
 
-use App\Http\Controllers\SignalementController;
-
-Route::post('/forum/signaler', [SignalementController::class, 'store']);

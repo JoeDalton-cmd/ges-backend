@@ -19,6 +19,8 @@
   .btn { background: #111111; color: white; padding: 12px 24px; border: none; text-transform: uppercase; font-size: 14px; cursor: pointer; }
   .btn:hover { background: #E4002B; }
   .succes { background: #00B37E; color: white; padding: 16px; margin-bottom: 20px; }
+  .erreur { background: #E4002B; color: white; padding: 16px; margin-bottom: 20px; }
+  .ferme { background: #F2F2F2; border: 1px solid #D8D8D8; padding: 16px; margin: 24px 0; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -27,6 +29,9 @@
 
     @if (session('succes'))
       <div class="succes">{{ session('succes') }}</div>
+    @endif
+    @if ($errors->any())
+      <div class="erreur">{{ $errors->first() }}</div>
     @endif
 
     <h1>{{ $sujet->titre }}</h1>
@@ -57,9 +62,23 @@
         <div class="message-auteur">{{ $reponse->auteur->name }}</div>
         <div class="message-date">{{ $reponse->created_at->format('d/m/Y à H:i') }}</div>
         <div class="message-contenu">{{ $reponse->contenu }}</div>
+        @auth
+          <details style="margin-top:12px;font-size:13px;">
+            <summary style="cursor:pointer;color:#6B6B6B;">Signaler cette réponse</summary>
+            <form method="POST" action="/forum/signaler" style="margin-top:12px;">
+              @csrf
+              <input type="hidden" name="reponse_id" value="{{ $reponse->id }}">
+              <input type="text" name="raison" placeholder="Raison du signalement" required style="width:100%;padding:10px;border:1px solid #D8D8D8;margin-bottom:8px;">
+              <button type="submit" class="btn" style="padding:10px 20px;">Envoyer le signalement</button>
+            </form>
+          </details>
+        @endauth
       </div>
     @endforeach
 
+    @if ($sujet->ferme)
+      <div class="ferme">Ce sujet est fermé : il n'est plus possible d'y répondre.</div>
+    @else
     @auth
       <h3 style="margin:24px 0 12px;">Répondre</h3>
       <form method="POST" action="/forum/sujet/{{ $sujet->id }}/repondre">
@@ -70,6 +89,7 @@
     @else
       <p style="margin-top:24px;font-size:14px;color:#6B6B6B;"><a href="/forum/connexion">Connecte-toi</a> pour répondre à ce sujet.</p>
     @endauth
+    @endif
   </div>
 </body>
 </html>

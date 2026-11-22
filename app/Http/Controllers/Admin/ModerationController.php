@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reponse;
 use App\Models\Signalement;
 use App\Models\Sujet;
 use App\Models\User;
@@ -13,7 +14,7 @@ class ModerationController extends Controller
     // Liste des signalements
     public function signalements()
     {
-        $signalements = Signalement::with(['sujet', 'reponse', 'auteur'])
+        $signalements = Signalement::with(['sujet', 'reponse.auteur', 'reponse.sujet', 'auteur'])
             ->orderBy('created_at', 'desc')
             ->get();
         return view('admin.moderation.signalements', ['signalements' => $signalements]);
@@ -53,6 +54,12 @@ class ModerationController extends Controller
         return back()->with('succes', 'Sujet supprimé.');
     }
 
+    public function supprimerReponse($id)
+    {
+        Reponse::findOrFail($id)->delete();
+        return back()->with('succes', 'Réponse supprimée.');
+    }
+
     // Liste des membres (pour suspension)
     public function membres()
     {
@@ -63,7 +70,15 @@ class ModerationController extends Controller
     public function toggleSuspension($id)
     {
         $membre = User::findOrFail($id);
-        $membre->update(['suspendu' => !$membre->suspendu]);
+
+        // On ne suspend jamais un administrateur (ni soi-même).
+        if ($membre->role === 'admin' || $membre->id === auth()->id()) {
+            return back()->withErrors(['membre' => 'Impossible de suspendre ce compte.']);
+        }
+
+        $membre->suspendu = ! $membre->suspendu;
+        $membre->save();
+
         return back()->with('succes', 'Statut du membre mis à jour.');
     }
 }

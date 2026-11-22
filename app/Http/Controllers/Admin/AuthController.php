@@ -21,6 +21,13 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($identifiants)) {
+            if (Auth::user()->role !== 'admin' || Auth::user()->suspendu) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return back()->withErrors(['email' => "Ce compte n'a pas accès à l'administration."]);
+            }
+
             $request->session()->regenerate();
             return redirect('/admin/dashboard');
         }

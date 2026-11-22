@@ -15,6 +15,7 @@
   .btn-mini { background: none; border: 1px solid #D8D8D8; padding: 6px 12px; font-size: 12px; cursor: pointer; }
   .btn-mini.suspendu { background: #E4002B; color: white; border-color: #E4002B; }
   .succes { background: #00B37E; color: white; padding: 16px; margin-bottom: 20px; }
+  .erreur { background: #E4002B; color: white; padding: 16px; margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -27,6 +28,10 @@
   <div class="contenu">
     @if (session('succes'))
       <div class="succes">{{ session('succes') }}</div>
+    @endif
+
+    @if ($errors->any())
+      <div class="erreur">{{ $errors->first() }}</div>
     @endif
 
     <h1 style="margin-bottom:24px;">Membres du forum</h1>

@@ -9,6 +9,11 @@ class Sujet extends Model
     //
     protected $fillable = ['categorie_forum_id', 'user_id', 'titre', 'contenu', 'epingle', 'ferme'];
 
+    protected $casts = [
+        'epingle' => 'boolean',
+        'ferme' => 'boolean',
+    ];
+
 public function categorie()
 {
     return $this->belongsTo(\App\Models\CategorieForum::class, 'categorie_forum_id');
